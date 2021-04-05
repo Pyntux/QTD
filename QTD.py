@@ -41,8 +41,8 @@ class App(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         ##  Ubacivanje TRAY-a u gui  ##
         ############################"""
         self.tray = QtWidgets.QSystemTrayIcon()
-        self.tray.setToolTip("TimerDown")
-        self.icon = QIcon("/usr/share/timerdown/icons/shutdown.ico")
+        self.tray.setToolTip("QTD")
+        self.icon = QIcon("icons/shutdown.ico")
         self.tray.setIcon(self.icon)
         self.tray.setVisible(False)  # Tray nije vidljiv dok se ne klikne dugme "tray_button"
 
@@ -50,19 +50,19 @@ class App(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         self.menu = QtWidgets.QMenu()
         self.tray.setContextMenu(self.menu)
 
-        self.option1_icon = QIcon("/usr/share/timerdown/icons/show.ico")
-        self.option1 = QtWidgets.QAction("Show TimerDown")
+        self.option1_icon = QIcon("icons/show.ico")
+        self.option1 = QtWidgets.QAction("Show QTD")
         self.option1.setIcon(self.option1_icon)
         self.option1.triggered.connect(self.show_from_tray)
         self.menu.addAction(self.option1)
 
-        self.option2_icon = QIcon("/usr/share/timerdown/icons/reset.ico")
+        self.option2_icon = QIcon("icons/reset.ico")
         self.option2 = QtWidgets.QAction("Reset schedule")
         self.option2.setIcon(self.option2_icon)
         self.option2.triggered.connect(self.reset)
         self.menu.addAction(self.option2)
 
-        self.option3_icon = QIcon("/usr/share/timerdown/icons/exit.ico")
+        self.option3_icon = QIcon("icons/exit.ico")
         self.option3 = QtWidgets.QAction("Exit application")
         self.option3.setIcon(self.option3_icon)
         self.option3.triggered.connect(self.exit)
