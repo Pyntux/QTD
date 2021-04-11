@@ -185,16 +185,13 @@ class App(QtWidgets.QMainWindow, gui.Ui_MainWindow):
             if item_2 == "Minutes from now":
                 os.system(f"shutdown -h {value_hm}")
                 self.label_info.setText(f"Your PC will shutdown in {value_hm} minutes !")
-                self.apply_button.setEnabled(False)
             elif item_2 == "Hours from now":
                 value_in_hours = value_hm * 60
                 os.system(f"shutdown -h {value_in_hours}")
                 self.label_info.setText(f"Your PC will shutdown in {value_hm} hours !")
-                self.apply_button.setEnabled(False)
             elif item_2 == "At selected time":
                 os.system(f"shutdown {value_hour}:{value_min}")
                 self.label_info.setText(f"Your PC will shutdown at {value_hour}:{value_min} !")
-                self.apply_button.setEnabled(False)
             elif item_2 == "Now":
                 os.system("shutdown -h now")
 
@@ -204,13 +201,10 @@ class App(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         elif item == "Reboot":
             if item_2 == "Minutes from now":
                 self.in_minutes(self.reboot)
-                self.apply_button.setEnabled(False)
             elif item_2 == "Hours from now":
                 self.in_hours(self.reboot)
-                self.apply_button.setEnabled(False)
             elif item_2 == "At selected time":
                 self.at_selected_time(self.reboot)
-                self.apply_button.setEnabled(False)
             elif item_2 == "Now":
                 os.system("reboot")
 
@@ -221,13 +215,10 @@ class App(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         elif item == "Hibernate":
             if item_2 == "Minutes from now":
                 self.in_minutes(self.hibernate)
-                self.apply_button.setEnabled(False)
             elif item_2 == "Hours from now":
                 self.in_hours(self.hibernate)
-                self.apply_button.setEnabled(False)
             elif item_2 == "At selected time":
                 self.at_selected_time(self.hibernate)
-                self.apply_button.setEnabled(False)
             elif item_2 == "Now":
                 os.system("systemctl hibernate")
 
@@ -238,15 +229,18 @@ class App(QtWidgets.QMainWindow, gui.Ui_MainWindow):
         elif item == "Sleep":
             if item_2 == "Minutes from now":
                 self.in_minutes(self.sleep)
-                self.apply_button.setEnabled(False)
             elif item_2 == "Hours from now":
                 self.in_hours(self.sleep)
-                self.apply_button.setEnabled(False)
             elif item_2 == "At selected time":
                 self.at_selected_time(self.sleep)
-                self.apply_button.setEnabled(False)
             elif item_2 == "Now":
                 os.system("systemctl suspend")
+
+        ###############################################
+        ## Disable-uje oba comboBox-a i apply_button ##
+        ###############################################
+
+        self.enable_disable_gui(False)
     ## /END ####################################################################
 
     """##############################
@@ -261,6 +255,20 @@ class App(QtWidgets.QMainWindow, gui.Ui_MainWindow):
 
     def sleep(self):
         os.system("systemctl suspend")
+    ## /END ####################################################################
+
+    """##################################################
+    ## Funkcije za blokiranje delova gui-a po potrebi: ##
+    ## koristi je apply funkcija i reset funkcija      ##
+    ## samo se ubaci drugi "bool" parametar            ##
+    ##################################################"""
+    # SA JEDNOM FUNKCIJOM:
+
+    def enable_disable_gui(self, bool):
+        self.apply_button.setEnabled(bool)
+        self.comboBox_action.setEnabled(bool)
+        self.comboBox_make_in.setEnabled(bool)
+
     ## /END ####################################################################
 
     """##############################################################################
@@ -352,9 +360,9 @@ class App(QtWidgets.QMainWindow, gui.Ui_MainWindow):
     def reset(self):
         self.timer_stop()
         self.time_set()
+        self.enable_disable_gui(True)
         self.label_info.setText("Set up again!")
         #self.tray.setToolTip("TimerDown - there is no schedule!")
-        self.apply_button.setEnabled(True)
     ## /END ####################################################################
 
     """ Funkcija za stopiranje timer-a i prekid akcija shutdown programa,
